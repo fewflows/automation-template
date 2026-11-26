@@ -58,7 +58,4 @@ Repozytorium zawiera wieloetapowy `Dockerfile` przygotowany pod izolację wykona
 
 ## Konfiguracja narzędzi agentowych
 
-Repozytorium utrzymuje neutralną konfigurację dla asystentów AI w standardzie multi-agentowym:
-
-- `AGENTS.md` — główna instrukcja projektu dla narzędzi agentowych (w tym Gemini / Antigravity oraz innych środowisk wspierających ten standard).
-- `CLAUDE.md` i katalog `.claude/` — opcjonalna konfiguracja kompatybilności dla narzędzi korzystających z tego formatu.
+Repozytorium zawiera plik `AGENTS.md`, który definiuje standard pracy, komendy weryfikacyjne oraz zasady bezpieczeństwa dla narzędzi agentowych wspierających ten format.

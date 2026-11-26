@@ -1,6 +1,6 @@
 # AGENTS.md — Instrukcja projektu fewflows/automation-template
 
-Uniwersalny plik kontekstu i zasad pracy dla narzędzi agentowych (Gemini / Antigravity oraz innych asystentów zgodnych ze standardem `AGENTS.md`).
+Uniwersalny plik kontekstu i zasad pracy dla narzędzi agentowych zgodnych ze standardem `AGENTS.md`.
 
 ## Cel repozytorium
 
