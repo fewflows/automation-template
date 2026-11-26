@@ -1,0 +1,40 @@
+# Sekrety i poświadczenia (rekursywnie)
+**/.env*
+**/.ENV*
+**/id_*
+**/*.key
+**/*.pem
+**/*.p12
+**/*service_account*.json
+secrets/
+
+# Bazy danych, żurnale i logi
+**/*.db
+**/*.sqlite*
+**/*-wal
+**/*-shm
+**/*.log
+output/
+
+# Python, cache i artefakty budowania
+.venv/
+venv/
+**/__pycache__/
+**/*.py[cod]
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+
+# VCS, CI i konfiguracja agentów
+.git/
+.gitignore
+.github/
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+README.md
+Dockerfile
+.dockerignore
