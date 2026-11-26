@@ -1,61 +1,45 @@
 # fewflows-automation-template
 
-Wzorcowy szablon startowy dla projektów automatyzacji zespołów `fewflows`. Zapewnia ścisłą walidację danych przez Pydantic, lokalny tryb `Test Sink` (`--dry-run`), kontrolę jakości `ruff` oraz automatyczne testy `pytest` w GitHub Actions.
+> **English** · [Polski](README.pl.md)
 
-## Utworzenie nowego projektu
+Starter template for `fewflows` automation projects (Python 3.13, `pydantic`, `pytest`, `ruff`, Docker).
 
-1. Wybierz **Use this template** w repozytorium `fewflows/automation-template` na GitHubie i utwórz nowe repozytorium docelowe.
-2. Sklonuj nowe repozytorium lokalnie i utwórz środowisko wirtualne Pythona (`>=3.11`).
-3. Zainstaluj zależności deweloperskie:
-   ```bash
-   pip install -e ".[dev]"
-   ```
-4. Skopiuj konfigurację przykładową do lokalnego pliku środowiskowego:
-   ```bash
-   cp .env.example .env
-   ```
+## Quick start
 
-## Uruchamianie i weryfikacja lokalna
+1. **Create and clone the project:** On GitHub, click **Use this template → Create a new repository**, then clone it to a local folder outside OneDrive (e.g. `C:\projects\`, using GitHub Desktop or asking your agent to run `git clone`).
+2. **Add a sandbox key:** Copy `.env.example` to `.env`, open it in a text editor (e.g. VS Code), and paste only a test/sandbox key from the company vault (or technical lead). Credentials stay local in `.env` and out of agent chat.
+3. **Prepare sample data and build:** Put 2–5 synthetic records in `tests/fixtures/` (no real customer data). Develop your automation logic with the agent inside `src/`.
+4. **Verify and submit:** Ask the agent to run checks and open a `Pull Request` for review.
 
-- Uruchomienie potoku w trybie bezpiecznym (`Test Sink` zapisuje wynik do `output/sink_preview.json`):
-  ```bash
-  python -m src.main --dry-run
-  ```
-- Analiza statyczna kodu i złożoności:
-  ```bash
-  ruff check .
-  ```
-- Uruchomienie testów jednostkowych:
-  ```bash
-  pytest -v
-  ```
+## Architecture and verification
 
-## Uruchamianie w kontenerze (Docker)
+- **Code and safe execution (`src/main.py`):** Input/output validation with `pydantic`. Default `--dry-run` mode writes output locally to `output/sink_preview.json` (production transport boundary: `dispatch_live`).
+- **Container (`Dockerfile`, `.dockerignore`):** Multi-stage build on `@sha256`-pinned Python 3.13, dependencies locked in `requirements.lock`, `tini` as `PID 1`, non-root user `10001:10001`, read-only `/app` and `/opt/venv` (`0:10001`), compatible with `--read-only` + `--cap-drop=ALL`, BuildKit `--mount=type=secret`. `.dockerignore` allows only `pyproject.toml`, `requirements.lock`, `src/**/*.py`, and `tests/fixtures/**/*.json`.
+- **Repository gates:** CI check `quality-and-tests` (`ruff`, `pytest`, `--dry-run`, `docker build` + `--read-only` run). Critical files are guarded by `CODEOWNERS`; agent instructions live in `AGENTS.md`.
 
-Repozytorium zawiera wieloetapowy `Dockerfile` przygotowany pod izolację wykonania (biała lista `.dockerignore`, zamrożone zależności w `requirements.lock`, menedżer inicjalizacji `tini` jako `PID 1`, użytkownik non-root `10001:10001`, system plików tylko do odczytu oraz usunięte uprawnienia jądra Linux).
+## Local and container execution
 
-1. Zbuduj obraz lokalnie (opcjonalnie przekazując konfigurację prywatnego indeksu pakietów przez BuildKit secret mount):
-   ```bash
-   docker build -t fewflows-automation:latest .
-   # Z sekretem BuildKit (bez zapisu sekretu w warstwach obrazu):
-   # docker build --secret id=pip_conf,src=pip.conf -t fewflows-automation:latest .
-   ```
-2. Uruchom kontener w trybie utwardzonym (`--read-only` + `--cap-drop=ALL`):
-   ```bash
-   docker run --rm \
-     --read-only \
-     --cap-drop=ALL \
-     --security-opt no-new-privileges:true \
-     --tmpfs /tmp:rw,noexec,nosuid,size=16m \
-     fewflows-automation:latest
-   ```
+```bash
+# Local environment (Python 3.13, min. >=3.11)
+pip install -r requirements.lock
+pip install -c requirements.lock -e ".[dev]"
+cp .env.example .env
 
-## Praca zespołowa i Pull Request
+python -m src.main --dry-run
+ruff check .
+pytest -v
+```
 
-1. Twórz zmiany na dedykowanej gałęzi roboczej.
-2. Upewnij się, że lokalnie przechodzą polecenia `ruff check .`, `pytest -v` oraz `python -m src.main --dry-run`.
-3. Wyślij gałąź i otwórz `Pull Request` do gałęzi `main`. Workflow GitHub Actions `CI` uruchamia pełną bramkę jakości automatycznie przed scaleniem.
+```bash
+# Docker (build + --read-only run)
+docker build -t fewflows-automation:latest .
+# Optional private package index:
+# docker build --secret id=pip_conf,src=pip.conf -t fewflows-automation:latest .
 
-## Konfiguracja narzędzi agentowych
-
-Repozytorium zawiera plik `AGENTS.md`, który definiuje standard pracy, komendy weryfikacyjne oraz zasady bezpieczeństwa dla narzędzi agentowych wspierających ten format.
+docker run --rm \
+  --read-only \
+  --cap-drop=ALL \
+  --security-opt no-new-privileges:true \
+  --tmpfs /tmp:rw,noexec,nosuid,size=16m \
+  fewflows-automation:latest
+```
