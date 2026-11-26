@@ -32,7 +32,7 @@ Wzorcowy szablon startowy dla projektów automatyzacji zespołów `fewflows`. Za
 
 ## Uruchamianie w kontenerze (Docker)
 
-Repozytorium zawiera wieloetapowy `Dockerfile` przygotowany pod izolację wykonania (użytkownik non-root `10001:10001`, system plików tylko do odczytu oraz usunięte uprawnienia jądra Linux).
+Repozytorium zawiera wieloetapowy `Dockerfile` przygotowany pod izolację wykonania (biała lista `.dockerignore`, zamrożone zależności w `requirements.lock`, menedżer inicjalizacji `tini` jako `PID 1`, użytkownik non-root `10001:10001`, system plików tylko do odczytu oraz usunięte uprawnienia jądra Linux).
 
 1. Zbuduj obraz lokalnie (opcjonalnie przekazując konfigurację prywatnego indeksu pakietów przez BuildKit secret mount):
    ```bash

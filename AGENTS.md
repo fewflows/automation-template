@@ -22,6 +22,7 @@ pytest -v
 - **Granica transportu i tryb bezpieczny:** Domyślnym trybem uruchomienia jest `--dry-run`, który kieruje wynik do lokalnego `Test Sink` (`output/sink_preview.json`). Wywołania zewnętrzne są odseparowane za granicą transportu (`dispatch_live`).
 - **Deterministyczne testy:** Testy jednostkowe w `tests/` opierają się na zamrożonych próbkach danych w `tests/fixtures/` bez wykonywania połączeń sieciowych.
 - **Izolacja sekretów:** Klucze API, tokeny i konfiguracja środowiska rezydują wyłącznie w lokalnym pliku `.env` (poza historią Git i kontekstem promptów). Szablon zmiennych znajduje się w `.env.example`.
+- **Konteneryzacja i biała lista:** Plik `.dockerignore` działa w trybie białej listy (Inverted Whitelist) powiązanej 1:1 z instrukcjami `COPY` w `Dockerfile`, a zależności runtime są zamrożone w `requirements.lock`. Dodanie nowego katalogu lub pliku kopiowanego do obrazu w `Dockerfile` wymaga jednoczesnego dopisania go do białej listy w `.dockerignore`.
 
 ## Przepływ pracy i Git
 

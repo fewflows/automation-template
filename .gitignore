@@ -1,10 +1,16 @@
 # Środowisko i sekrety
 .env
 .env.*
+*.env
 !.env.example
 *.pem
 *.key
+*.crt
+*.cert
 *.p12
+*service_account*.json
+*credentials*.json
+pip.conf
 secrets/
 
 # Python i narzędzia budowania
@@ -27,3 +33,4 @@ output/
 # Lokalna konfiguracja agentów
 *.local.md
 .agents/local/
+.agents/rules/
