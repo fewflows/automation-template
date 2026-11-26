@@ -1,0 +1,12 @@
+[
+  {
+    "campaign_name": "Campaign Alpha",
+    "spend": 100.0,
+    "revenue": 350.0
+  },
+  {
+    "campaign_name": "Campaign Beta",
+    "spend": 50.0,
+    "revenue": 125.0
+  }
+]

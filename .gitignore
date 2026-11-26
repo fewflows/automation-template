@@ -1,0 +1,29 @@
+# Środowisko i sekrety
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+secrets/
+
+# Python i narzędzia budowania
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.venv/
+venv/
+build/
+dist/
+*.egg-info/
+
+# Artefakty lokalne i bazy danych
+output/
+*.db
+*.sqlite*
+*.log
+
+# Lokalna konfiguracja agentów
+.claude/settings.local.json
+CLAUDE.local.md
