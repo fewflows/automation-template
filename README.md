@@ -35,3 +35,10 @@ Wzorcowy szablon startowy dla projektów automatyzacji zespołów `fewflows`. Za
 1. Twórz zmiany na dedykowanej gałęzi roboczej.
 2. Upewnij się, że lokalnie przechodzą polecenia `ruff check .`, `pytest -v` oraz `python -m src.main --dry-run`.
 3. Wyślij gałąź i otwórz `Pull Request` do gałęzi `main`. Workflow GitHub Actions `CI` uruchamia pełną bramkę jakości automatycznie przed scaleniem.
+
+## Konfiguracja narzędzi agentowych
+
+Repozytorium utrzymuje neutralną konfigurację dla asystentów AI w standardzie multi-agentowym:
+
+- `AGENTS.md` — główna instrukcja projektu dla narzędzi agentowych (w tym Gemini / Antigravity oraz innych środowisk wspierających ten standard).
+- `CLAUDE.md` i katalog `.claude/` — opcjonalna konfiguracja kompatybilności dla narzędzi korzystających z tego formatu.
