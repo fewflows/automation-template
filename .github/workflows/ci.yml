@@ -23,7 +23,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install --upgrade pip
-          pip install ".[dev]"
+          pip install -r requirements.lock
+          pip install -c requirements.lock ".[dev]"
 
       - name: Run Ruff linter
         run: ruff check .
@@ -33,3 +34,16 @@ jobs:
 
       - name: Verify Dry-Run pipeline
         run: python -m src.main --dry-run
+
+      - name: Build hardened Docker image
+        run: docker build -t fewflows-automation:ci .
+
+      - name: Verify hardened Docker container
+        run: |
+          docker run --rm --entrypoint id fewflows-automation:ci | grep -q "^uid=10001(appuser)"
+          docker run --rm \
+            --read-only \
+            --cap-drop=ALL \
+            --security-opt no-new-privileges:true \
+            --tmpfs /tmp:rw,noexec,nosuid,size=16m \
+            fewflows-automation:ci

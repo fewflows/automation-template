@@ -1,39 +1,39 @@
-# Sekrety i poświadczenia (rekursywnie)
-**/.env*
-**/.ENV*
+# 1. Domyślne odcięcie wszystkiego (Default Deny)
+*
+
+# 2. Biała lista plików głównych wymaganych przez COPY w Dockerfile
+!pyproject.toml
+!requirements.lock
+
+# 3. Biała lista kodu źródłowego (wyłącznie katalogi i pliki .py wewnątrz src/)
+!src/
+src/**
+!src/**/
+!src/**/*.py
+
+# 4. Biała lista próbek testowych (wyłącznie katalogi i pliki .json wewnątrz tests/fixtures/)
+!tests/
+tests/*
+!tests/fixtures/
+tests/fixtures/**
+!tests/fixtures/**/
+!tests/fixtures/**/*.json
+
+# 5. Obrona w głąb wewnątrz dopuszczonych ścieżek (case-insensitive i sekrety JSON)
+**/*.[eE][nN][vV]*
+**/*.[eE][nN][vV]
 **/id_*
 **/*.key
 **/*.pem
+**/*.crt
+**/*.cert
 **/*.p12
 **/*service_account*.json
-secrets/
-
-# Bazy danych, żurnale i logi
-**/*.db
-**/*.sqlite*
-**/*-wal
-**/*-shm
-**/*.log
-output/
-
-# Python, cache i artefakty budowania
-.venv/
-venv/
+**/*credential*.json
+**/*secret*.json
 **/__pycache__/
 **/*.py[cod]
-.pytest_cache/
-.ruff_cache/
-*.egg-info/
-build/
-dist/
-
-# VCS, CI i konfiguracja agentów
-.git/
-.gitignore
-.github/
-.agents/
-AGENTS.md
-*.local.md
-README.md
-Dockerfile
-.dockerignore
+**/.pytest_cache/
+**/*.db*
+**/*-wal
+**/*-shm
