@@ -25,5 +25,5 @@ output/
 *.log
 
 # Lokalna konfiguracja agentów
-.claude/settings.local.json
-CLAUDE.local.md
+*.local.md
+.agents/local/

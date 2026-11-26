@@ -31,10 +31,9 @@ dist/
 .git/
 .gitignore
 .github/
-.claude/
-CLAUDE.md
-CLAUDE.local.md
+.agents/
 AGENTS.md
+*.local.md
 README.md
 Dockerfile
 .dockerignore
