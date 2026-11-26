@@ -30,6 +30,26 @@ Wzorcowy szablon startowy dla projektów automatyzacji zespołów `fewflows`. Za
   pytest -v
   ```
 
+## Uruchamianie w kontenerze (Docker)
+
+Repozytorium zawiera wieloetapowy `Dockerfile` przygotowany pod izolację wykonania (użytkownik non-root `10001:10001`, system plików tylko do odczytu oraz usunięte uprawnienia jądra Linux).
+
+1. Zbuduj obraz lokalnie (opcjonalnie przekazując konfigurację prywatnego indeksu pakietów przez BuildKit secret mount):
+   ```bash
+   docker build -t fewflows-automation:latest .
+   # Z sekretem BuildKit (bez zapisu sekretu w warstwach obrazu):
+   # docker build --secret id=pip_conf,src=pip.conf -t fewflows-automation:latest .
+   ```
+2. Uruchom kontener w trybie utwardzonym (`--read-only` + `--cap-drop=ALL`):
+   ```bash
+   docker run --rm \
+     --read-only \
+     --cap-drop=ALL \
+     --security-opt no-new-privileges:true \
+     --tmpfs /tmp:rw,noexec,nosuid,size=16m \
+     fewflows-automation:latest
+   ```
+
 ## Praca zespołowa i Pull Request
 
 1. Twórz zmiany na dedykowanej gałęzi roboczej.
